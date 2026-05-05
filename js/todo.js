@@ -82,3 +82,8 @@ function deleteTodo(index) {
     renderTodoList();
     updateBadges();
 }
+
+// Returns the todos array so other files can read it
+export function getTodos() {
+    return todos;
+}
