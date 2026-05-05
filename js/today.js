@@ -1,17 +1,23 @@
-/**
- * Renders today's date in the sidebar.
- */
 export function renderTodayDate() {
-    const el = document.getElementById('today-date');
-    if (!el) return;
-
     const now = new Date();
-    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-    const formatted = now.toLocaleDateString('sv-SE', options);
 
-    // Capitalise first letter
-    el.textContent = formatted.charAt(0).toUpperCase() + formatted.slice(1);
+    // Visa veckodag, t.ex. "Tisdag"
+    const weekday = now.toLocaleDateString('sv-SE', { weekday: 'long' });
+    document.getElementById('today-weekday').textContent =
+        weekday.charAt(0).toUpperCase() + weekday.slice(1);
 
-    const iso = now.toISOString().split('T')[0];
-    el.setAttribute('datetime', iso);
+    // Visa datum, t.ex. "5 maj 2026"
+    document.getElementById('today-date').textContent =
+        now.toLocaleDateString('sv-SE', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    // Starta klockan och uppdatera den varje sekund
+    updateClock();
+    setInterval(updateClock, 1000);
+}
+
+function updateClock() {
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('today-time').textContent = hh + ':' + mm;
 }
