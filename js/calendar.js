@@ -1,3 +1,5 @@
+import { getHolidays } from './holidays.js';
+
 export function renderCalendar(year, month) {
     const today = new Date();
     const y = year  !== undefined ? year  : today.getFullYear();
@@ -83,6 +85,7 @@ export function initCalendarNav() {
             currentYear = currentYear - 1;
         }
         renderCalendar(currentYear, currentMonth);
+        updateHolidays(currentYear);
         updateBadges();
     });
 
@@ -94,6 +97,7 @@ export function initCalendarNav() {
             currentYear = currentYear + 1;
         }
         renderCalendar(currentYear, currentMonth);
+        updateHolidays(currentYear);
         updateBadges();
     });
 }
@@ -123,5 +127,23 @@ export function updateBadges() {
         badge.className = 'todo-badge';
         badge.textContent = counts[date];
         cell.appendChild(badge);
+    });
+}
+
+export function updateHolidays(year) {
+    const holidays = getHolidays(year);
+
+    holidays.forEach(function (holiday) {
+        const cell = document.querySelector('[data-date="' + holiday.date + '"]');
+        if (!cell) return;
+
+        // Mark the cell as a holiday
+        cell.classList.add('holiday');
+
+        // Add the holiday name as a small label
+        const label = document.createElement('span');
+        label.className = 'holiday-label';
+        label.textContent = holiday.name;
+        cell.appendChild(label);
     });
 }

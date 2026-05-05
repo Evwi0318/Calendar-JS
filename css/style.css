@@ -502,3 +502,20 @@ td.today .day-number {
 }
 
 
+.calendar-table tbody td.holiday {
+    background-color: rgba(231, 76, 60, 0.06);
+}
+
+.holiday-label {
+    display: block;
+    font-size: 0.6rem;
+    color: #e74c3c;
+    font-weight: 600;
+    margin-top: 2px;
+    line-height: 1.2;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
