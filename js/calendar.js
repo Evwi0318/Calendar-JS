@@ -67,3 +67,31 @@ function createDayNumber(num) {
     span.textContent = num;
     return span;
 }
+
+
+export function initCalendarNav() {
+    // Keep track of which month we are viewing
+    const today = new Date();
+    let currentYear = today.getFullYear();
+    let currentMonth = today.getMonth(); // 0 = January, 11 = December
+
+    document.getElementById('prev-month').addEventListener('click', function () {
+        // Go one month back
+        currentMonth = currentMonth - 1;
+        if (currentMonth < 0) {
+            currentMonth = 11; // December
+            currentYear = currentYear - 1;
+        }
+        renderCalendar(currentYear, currentMonth);
+    });
+
+    document.getElementById('next-month').addEventListener('click', function () {
+        // Go one month forward
+        currentMonth = currentMonth + 1;
+        if (currentMonth > 11) {
+            currentMonth = 0; // January
+            currentYear = currentYear + 1;
+        }
+        renderCalendar(currentYear, currentMonth);
+    });
+}
