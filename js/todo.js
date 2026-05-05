@@ -40,7 +40,7 @@ function renderTodoList() {
         return;
     }
 
-    todos.forEach(function (todo) {
+    todos.forEach(function (todo, index) {
         const li = document.createElement('li');
         li.className = 'todo-item';
 
@@ -52,8 +52,17 @@ function renderTodoList() {
         dateSpan.className = 'todo-item-date';
         dateSpan.textContent = formatDate(todo.date);
 
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'todo-delete-btn';
+        deleteBtn.textContent = '✕';
+        deleteBtn.setAttribute('aria-label', 'Ta bort todo');
+        deleteBtn.addEventListener('click', function () {
+            deleteTodo(index);
+        });
+
         li.appendChild(textSpan);
         li.appendChild(dateSpan);
+        li.appendChild(deleteBtn);
         list.appendChild(li);
     });
 }
@@ -62,4 +71,10 @@ function renderTodoList() {
 function formatDate(isoDate) {
     const date = new Date(isoDate + 'T00:00:00');
     return date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function deleteTodo(index) {
+    // Remove the todo at the given position in the array
+    todos.splice(index, 1);
+    renderTodoList();
 }
