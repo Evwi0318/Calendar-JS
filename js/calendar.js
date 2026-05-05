@@ -83,6 +83,7 @@ export function initCalendarNav() {
             currentYear = currentYear - 1;
         }
         renderCalendar(currentYear, currentMonth);
+        updateBadges();
     });
 
     document.getElementById('next-month').addEventListener('click', function () {
@@ -93,5 +94,34 @@ export function initCalendarNav() {
             currentYear = currentYear + 1;
         }
         renderCalendar(currentYear, currentMonth);
+        updateBadges();
+    });
+}
+
+import { getTodos } from './todo.js';
+
+export function updateBadges() {
+    // Remove all existing badges
+    document.querySelectorAll('.todo-badge').forEach(function (badge) {
+        badge.remove();
+    });
+
+    const todos = getTodos();
+
+    // Count how many todos exist per date
+    const counts = {};
+    todos.forEach(function (todo) {
+        counts[todo.date] = (counts[todo.date] || 0) + 1;
+    });
+
+    // Find each calendar cell and add a badge if it has todos
+    Object.keys(counts).forEach(function (date) {
+        const cell = document.querySelector('[data-date="' + date + '"]');
+        if (!cell) return;
+
+        const badge = document.createElement('span');
+        badge.className = 'todo-badge';
+        badge.textContent = counts[date];
+        cell.appendChild(badge);
     });
 }

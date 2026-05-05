@@ -21,3 +21,8 @@ function updateClock() {
     const mm = String(now.getMinutes()).padStart(2, '0');
     document.getElementById('today-time').textContent = hh + ':' + mm;
 }
+
+// Returns the todos array so other files can read it
+export function getTodos() {
+    return todos;
+}
