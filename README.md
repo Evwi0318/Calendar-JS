@@ -5,5 +5,9 @@ Ett verktyg där användaren kan skapa och schemalägga todos
    ![Flödesdiagram](docs/calendarjs.drawio.png)
 
  ## Calendar inspo
-   ![Flödesdiagram](docs/calendarinspo.png)
+   ![Insirations bild](docs/calendarinspo.png)
+
+  ## Färdig CalendarJs av Evan och Isak 
+   ![Färdig Kalender](docs/calenderjsdone.png)
+
 
