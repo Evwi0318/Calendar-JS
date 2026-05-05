@@ -1,16 +1,16 @@
 export function renderTodayDate() {
     const now = new Date();
 
-    // Visa veckodag, t.ex. "Tisdag"
+    // Show weekday, e.g. "Tisdag"
     const weekday = now.toLocaleDateString('sv-SE', { weekday: 'long' });
     document.getElementById('today-weekday').textContent =
         weekday.charAt(0).toUpperCase() + weekday.slice(1);
 
-    // Visa datum, t.ex. "5 maj 2026"
+    // Show date, e.g. "5 maj 2026"
     document.getElementById('today-date').textContent =
         now.toLocaleDateString('sv-SE', { day: 'numeric', month: 'long', year: 'numeric' });
 
-    // Starta klockan och uppdatera den varje sekund
+    // Start the clock and update it every second
     updateClock();
     setInterval(updateClock, 1000);
 }

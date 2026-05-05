@@ -1,37 +1,27 @@
-/**
- * Renders the calendar for the current (or given) month.
- * @param {number} [year]
- * @param {number} [month] — 0-indexed (0 = January)
- */
 export function renderCalendar(year, month) {
     const today = new Date();
     const y = year  !== undefined ? year  : today.getFullYear();
     const m = month !== undefined ? month : today.getMonth();
 
-    // Update header label
+    // Update the month/year label in the header
     const label = document.getElementById('current-month-label');
-    if (label) {
-        const monthName = new Date(y, m, 1)
-            .toLocaleDateString('sv-SE', { month: 'long', year: 'numeric' });
-        label.textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1);
-        label.setAttribute('datetime', `${y}-${String(m + 1).padStart(2, '0')}`);
-    }
+    const monthName = new Date(y, m, 1).toLocaleDateString('sv-SE', { month: 'long', year: 'numeric' });
+    label.textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1);
 
+    // Clear the calendar and rebuild it
     const tbody = document.getElementById('calendar-body');
-    if (!tbody) return;
-
     tbody.innerHTML = '';
 
-    // First day of month (0=Sun … 6=Sat). Adjust so week starts on Monday.
-    const firstDay = new Date(y, m, 1).getDay(); // 0-Sun
-    const startOffset = (firstDay === 0) ? 6 : firstDay - 1;
+    // Figure out which column to start on (weeks start on Monday)
+    const firstDay = new Date(y, m, 1).getDay();
+    const startOffset = firstDay === 0 ? 6 : firstDay - 1;
 
-    const daysInMonth    = new Date(y, m + 1, 0).getDate();
+    const daysInMonth = new Date(y, m + 1, 0).getDate();
     const daysInPrevMonth = new Date(y, m, 0).getDate();
+    const totalCells = Math.ceil((startOffset + daysInMonth) / 7) * 7;
 
     let day = 1;
     let nextMonthDay = 1;
-    const totalCells = Math.ceil((startOffset + daysInMonth) / 7) * 7;
 
     for (let i = 0; i < totalCells; i += 7) {
         const tr = document.createElement('tr');
@@ -41,31 +31,26 @@ export function renderCalendar(year, month) {
             const td = document.createElement('td');
 
             if (cellIndex < startOffset) {
-                // Previous month overflow
+                // Days from the previous month
                 const prevDay = daysInPrevMonth - startOffset + cellIndex + 1;
                 td.classList.add('other-month');
                 td.appendChild(createDayNumber(prevDay));
             } else if (day > daysInMonth) {
-                // Next month overflow
+                // Days from the next month
                 td.classList.add('other-month');
                 td.appendChild(createDayNumber(nextMonthDay));
                 nextMonthDay++;
             } else {
-                // Current month
-                const isToday =
-                    day === today.getDate() &&
-                    m   === today.getMonth() &&
-                    y   === today.getFullYear();
-
+                // Days in the current month
+                const isToday = day === today.getDate() && m === today.getMonth() && y === today.getFullYear();
                 if (isToday) td.classList.add('today');
 
+                const isoDate = y + '-' + String(m + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
                 const time = document.createElement('time');
-                const isoDate = `${y}-${String(m + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                 time.setAttribute('datetime', isoDate);
                 time.appendChild(createDayNumber(day));
                 td.appendChild(time);
                 td.dataset.date = isoDate;
-
                 day++;
             }
 
