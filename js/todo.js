@@ -1,3 +1,5 @@
+import { updateBadges } from './calendar.js';
+
 // All todos are stored in this array
 // Each todo looks like: { text: "Buy milk", date: "2026-05-10" }
 const todos = [];
@@ -26,6 +28,7 @@ function addTodo(text, date) {
     todos.push({ text, date });
 
     renderTodoList();
+    updateBadges();
 }
 
 function renderTodoList() {
@@ -77,4 +80,10 @@ function deleteTodo(index) {
     // Remove the todo at the given position in the array
     todos.splice(index, 1);
     renderTodoList();
+    updateBadges();
+}
+
+// Returns the todos array so other files can read it
+export function getTodos() {
+    return todos;
 }
