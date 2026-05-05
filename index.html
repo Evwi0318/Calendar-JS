@@ -1,18 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    
-    <title>CalendarJs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Hushållskalendern</title>
 </head>
 <body>
 
-    <header class="flexbox sticky-top">
-        <span>KALENDER FÖR HUSHÅLLET</span>
-       
+    <header class="site-header">
+        <div class="header-inner">
+            <h1 class="site-title">Hushållskalendern</h1>
+            <nav class="calendar-nav" aria-label="Kalendernavigering">
+                <button class="nav-btn" id="prev-month" aria-label="Föregående månad">&#8592;</button>
+                <time class="current-month" id="current-month-label" datetime="2026-05">Maj 2026</time>
+                <button class="nav-btn" id="next-month" aria-label="Nästa månad">&#8594;</button>
+            </nav>
+        </div>
     </header>
-    
+
+    <main class="app-layout">
+
+        <aside class="sidebar" aria-label="Todos">
+
+            <section class="today-info">
+                <h2 class="today-heading">Idag</h2>
+                <time class="today-date" id="today-date" datetime="2026-05-05">Tisdag 5 maj 2026</time>
+            </section>
+
+            <section class="todo-section">
+                <h2 class="todo-heading">Att göra</h2>
+
+                <form class="todo-form" id="todo-form" novalidate>
+                    <div class="form-group">
+                        <label for="todo-input">Uppgift</label>
+                        <input
+                            type="text"
+                            id="todo-input"
+                            name="todo"
+                            placeholder="Lägg till en uppgift..."
+                            autocomplete="off"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="todo-date">Datum</label>
+                        <input
+                            type="date"
+                            id="todo-date"
+                            name="date"
+                            required
+                        >
+                    </div>
+                    <button type="submit" class="add-btn">Lägg till</button>
+                </form>
+
+                <ul class="todo-list" id="todo-list" aria-label="Lista med todos" aria-live="polite">
+                    <li class="todo-empty">Inga todos ännu. Lägg till en uppgift!</li>
+                </ul>
+            </section>
+
+        </aside>
+
+        <section class="calendar-section" aria-label="Kalender">
+            <table class="calendar-table" role="grid" aria-labelledby="current-month-label">
+                <thead>
+                    <tr>
+                        <th scope="col" abbr="Måndag">Mån</th>
+                        <th scope="col" abbr="Tisdag">Tis</th>
+                        <th scope="col" abbr="Onsdag">Ons</th>
+                        <th scope="col" abbr="Torsdag">Tor</th>
+                        <th scope="col" abbr="Fredag">Fre</th>
+                        <th scope="col" abbr="Lördag">Lör</th>
+                        <th scope="col" abbr="Söndag">Sön</th>
+                    </tr>
+                </thead>
+                <tbody id="calendar-body">
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <script src="js/main.js" type="module"></script>
 </body>
 </html>
